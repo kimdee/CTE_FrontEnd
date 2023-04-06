@@ -9,7 +9,7 @@ import {
   Navigate,
 } from "react-router-dom";
 
-import useAuth from "./components/context/AuthContext";
+import useAuth from "./components/Hooks/AuthContext";
 
 import Login from "./components/authentication/Login";
 import Home from "./components/dashboard/Home";

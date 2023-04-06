@@ -96,7 +96,7 @@ const CustomModal = ({
                 position={"absolute"}
                 bottom={"2"}
               >
-                TELEMEDICINE &middot; 2022
+                CTE &middot; 2023
               </Text>
             </ModalBody>
 
@@ -132,10 +132,10 @@ const CustomModal = ({
                     fontSize={"14px"}
                     borderRadius={"4"}
                     fontWeight={"normal"}
-                    colorScheme="green"
+                    colorScheme="blue"
                     mr={3}
                     size="sm"
-                    bg={loader ? "gray" : "#1CB45D"}
+                    bg={loader ? "gray" : "#526bf2"}
                   >
                     {btntitle}
                   </Button>

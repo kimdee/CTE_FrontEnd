@@ -12,12 +12,13 @@ import {
 import { MdOutlineAnnouncement } from "react-icons/md";
 
 import {
-  CustomTablePaginate,
   TitleColor,
   CustomModal,
   toastposition,
   toastvariant,
 } from "../Packages";
+
+import CustomTablePaginate from '../Component/CustomTablePaginate';
 
 import AnnouncementPost from "../Component/Announcement/AnnouncementPost";
 import PostAnnouncement from "../Component/Announcement/PostAnnouncement";

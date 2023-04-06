@@ -19,10 +19,9 @@ import {
   Center,
 } from "@chakra-ui/react";
 
-import useAuth from "../../../context/AuthContext";
+import useAuth from "../../../Hooks/AuthContext";
 
 import CustomFormController from "../../../authentication/customs/CustomFormController";
-import { ProfileGetRequest } from "../../../api/Profile_Request";
 
 export default function ProfileCard(props) {
   const toast = useToast();
@@ -71,19 +70,6 @@ export default function ProfileCard(props) {
     // setPeriodAttendedEnd,
     // isErrorFN,
   } = useAuth();
-
-  const handleFetchUser = async () => {
-    const res = await ProfileGetRequest();
-
-    if (res.data.status === 200) {
-      setProfiles(res.data.data);
-    }
-  };
-
-  useEffect(() => {
-    handleFetchUser();
-    setFetch(false);
-  }, [fetch]);
 
   return (
     <Stack spacing={5}>

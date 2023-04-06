@@ -11,19 +11,8 @@ import { GiSkills } from "react-icons/gi";
 import { TbFileReport } from "react-icons/tb";
 import { RiFileListFill } from "react-icons/ri";
 
-import {
-  Announcement,
-  // Doctor,
-  // User,
-  // Patient,
-  // Case,
-  // Archived,
-  // Hospital,
-  // Specialization,
-  // Report,
-  // HistoryLogs,
-  Profile,
-} from "../dashboard/Packages";
+import Announcement from "../dashboard/Pages/Announcement";
+import User from "../dashboard/Pages/User";
 
 const RouteData = {
   path: [
@@ -35,28 +24,27 @@ const RouteData = {
       element: <Announcement />,
       superadmin: true,
       admin: true,
-      user: true,
+      staff: true,
     },
+    {
+      index: 2,
+      icon: <FaUsers />,
+      href: "/users",
+      label: "Users",
+      element: <User />,
+      superadmin: true,
+      admin: false,
+      staff: false,
+    },
+
     // {
-    //   index: 2,
+    //   index: 3,
     //   icon: <FaUserMd />,
     //   href: "/doctors",
     //   label: "Doctors",
     //   element: <Doctor />,
     //   superadmin: true,
     //   admin: true,
-    //   doctor: false,
-    //   edoctor: false,
-    //   staff: false,
-    // },
-    // {
-    //   index: 3,
-    //   icon: <FaUsers />,
-    //   href: "/users",
-    //   label: "Users",
-    //   element: <User />,
-    //   superadmin: true,
-    //   admin: false,
     //   doctor: false,
     //   edoctor: false,
     //   staff: false,
@@ -133,18 +121,18 @@ const RouteData = {
     //   edoctor: false,
     //   staff: false,
     // },
-    {
-      index: 9,
-      icon: <FaUserMd />,
-      href: "/profile",
-      label: "Profile",
-      element: <Profile />,
-      superadmin: true,
-      admin: true,
-      doctor: false,
-      edoctor: false,
-      staff: false,
-    },
+    // {
+    //   index: 9,
+    //   icon: <FaUserMd />,
+    //   href: "/profile",
+    //   label: "Profile",
+    //   element: <Profile />,
+    //   superadmin: true,
+    //   admin: true,
+    //   doctor: false,
+    //   edoctor: false,
+    //   staff: false,
+    // },
   ],
 };
 

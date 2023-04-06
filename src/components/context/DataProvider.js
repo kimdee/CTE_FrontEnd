@@ -1,18 +1,17 @@
 import { createContext, useState, useEffect } from "react";
-import api from "../api/api";
 
-import {
-  LoginRequest,
-  RegisterRequest,
-  LogoutRequest,
-} from "../api/Authentication_Request";
+import { GetRequest, PostRequest } from '../api/api';
+import { Auth, User, Case } from '../api/Path';
+import { Sanctum } from '../api/Path';
 
-import { UserAllGetRequest } from "../api/User_Request";
+import StatusHandler from '../Utils/StatusHandler';
 
 const DataContext = createContext({});
 
 export const DataProvider = ({ children }) => {
   const [authException, setAuthException] = useState("Error");
+  
+  const [search, setSearch] = useState('');
 
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -55,73 +54,68 @@ export const DataProvider = ({ children }) => {
   const [isErrorVP, setIsErrorVP] = useState(false);
 
   const login = async () => {
-    try {
-      let bodyFormData = new FormData();
+    let msg = '';
+    let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("password", password);
+    bodyFormData.append('name', name);
+    bodyFormData.append('password', password);
 
-      const res = await LoginRequest(bodyFormData);
-
-      if (res.data.status === 404) {
-        return res.data.error;
-      }
-
-      if (res.data.status === 401) {
-        return "warning";
-      }
-
-      if (res.data.status === 200) {
-        const userProfileData = res.data.data;
-
-        setUser(userProfileData);
-
-        console.log(user);
-        sessionStorage.setItem("token", userProfileData["token"]);
-
-        return "success";
-      }
-      if (res.data.status === 500) {
-        if (res.data.errors === "Email or password incorrect") {
-          return "E-P error";
+    PostRequest({ url: `${Auth}/signin` }, bodyFormData)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response.', { cause: res });
         }
-      }
-    } catch (err) {
-      return err.message;
-    }
+
+        const json = res.data.data;
+        sessionStorage.setItem('token', json['token']);
+        setUser(json);
+      })
+      .catch(err => {
+        msg = StatusHandler(err);
+      });
+
+    return msg;
   };
 
+ 
   const register = async () => {
-    try {
-      let bodyFormData = new FormData();
+    let msg = '';
+    let bodyFormData = new FormData();
 
-      bodyFormData.append("name", name);
-      bodyFormData.append("email", email);
-      bodyFormData.append("password", password);
-      bodyFormData.append("profile", url);
-      bodyFormData.append("FirstName", FirstName);
-      bodyFormData.append("LastName", LastName);
+    bodyFormData.append('name', name);
+    bodyFormData.append('email', email);
+    bodyFormData.append('password', password);
+    bodyFormData.append('profile', url);
+    bodyFormData.append('FirstName', FirstName);
+    bodyFormData.append('LastName', LastName);
 
-      let userProfileData = await RegisterRequest(bodyFormData);
+    PostRequest({ url: `${Auth}/signup` }, bodyFormData)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad response.', { cause: res });
+        }
 
-      if (userProfileData.data.status === 404) {
-        throw Error(userProfileData.data.error);
-      }
-
-      if (userProfileData.data.status === 409) {
-        return "already exist";
-      }
-
-      if (userProfileData.data.status === 200) {
-        return "success";
-      }
-    } catch (err) {
-      return err.message;
-    }
+        msg = 'success';
+      })
+      .catch(err => {
+        msg = StatusHandler(err);
+      });
+    return msg;
   };
+
 
   const requestSanctumCSRF = async () => {
-    await api.get("sanctum/csrf-cookie");
+    GetRequest({ url: Sanctum })
+      .then(res => {
+        if (!res.status === 200) {
+          throw new Error('Bad response.');
+        }
+
+        // console.log('success.');
+      })
+      .catch(err => {
+        // console.log(err);
+      });
   };
 
   useEffect(() => {
@@ -139,34 +133,6 @@ export const DataProvider = ({ children }) => {
     setFirstName("");
     setLastName("");
   };
-
-  const [firstCall, setFirstCall] = useState(true);
-
-  const checkValidation = async () => {
-    try {
-      if (sessionStorage.getItem("token") !== null) {
-        const res = await UserAllGetRequest();
-        setUser(res.data.data);
-        return;
-      }
-      setUser({
-        loggedIn: false,
-      });
-    } catch (e) {
-      if (user === null) {
-        setUser({
-          loggedIn: false,
-        });
-      }
-    }
-  };
-
-  useEffect(() => {
-    if (user === null && firstCall === true) {
-      setFirstCall(false);
-      setTimeout(() => checkValidation(), [200]);
-    }
-  }, [firstCall]);
 
   return (
     <DataContext.Provider

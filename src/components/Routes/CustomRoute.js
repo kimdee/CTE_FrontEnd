@@ -1,9 +1,16 @@
+import { lazy, Suspense, useState, useEffect } from 'react';
+
 import { Routes, Route, Outlet, useLocation, Navigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+
+import { GetRequest } from '../api/api.js';
+import { User } from '../api/Path.js'
+
 import Login from "../authentication/Login.js";
 import PageNotFound from "../404/PageNotFound.js";
 import ProtectedRoute from "./protectedroute.js";
 import Home from "../dashboard/Home.js";
-import useAuth from "../context/AuthContext.js";
+import useAuth from "../Hooks/AuthContext.js";
 // import MyAccount from "../dashboard/Pages/MyAccount.js";
 import RouteData from "../Routes/RouteData";
 import ProtectedAuthRoute from "./protectedAuthRoute.js";
@@ -16,18 +23,38 @@ const Layout = () => {
   );
 };
 
-const RedirectAuth = ({ user }) => {
-  const location = useLocation();
+const ProtectedRoutes = () => {
+  const { user } = useAuth();
 
-  if (!user || user.loggedIn === undefined) {
-    return <Login />;
-  }
+  return user === null ? <Navigate to="/login" replace /> : <Outlet />;
+};
 
-  if (user.loggedIn === true) {
-    return <Navigate to="/h" state={{ from: location }} replace />;
-  }
+const RedirectAuth = () => {
+  const navigate = useNavigate();
+  const [fetch, setFetch] = useState(true);
+  const { setUser } = useAuth();
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  const handleFetch = () => {
+    GetRequest({ url: User })
+      .then(res => res.data)
+      .then(res => {
+        if (!res.data.status === 200) {
+          throw new Error('Bad response', { cause: res });
+        }
+
+        const { data } = res;
+        setUser(data);
+        navigate('/', { replace: true });
+      })
+      .catch(_ => {
+        setUser(null);
+      });
+  };
+
+  useEffect(() => {
+    handleFetch();
+    return () => setFetch(false);
+  }, [fetch]);
 };
 
 const CustomRoute = () => {

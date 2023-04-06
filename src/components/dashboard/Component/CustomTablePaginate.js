@@ -17,7 +17,7 @@ import {
   Badge,
   Button,
 } from "@chakra-ui/react";
-import useAuth from "../../context/AuthContext";
+import useAuth from "../../Hooks/AuthContext";
 import Searchfield from "../Component/Searchfield";
 import { MdOutlineMessage } from "react-icons/md";
 
@@ -41,7 +41,6 @@ import {
 import "../../../Table.css";
 import moment from "moment/moment";
 import { useNavigate } from "react-router-dom";
-import { UserResetPassword } from "../../api/User_Request";
 
 const CustomTablePaginate = ({
   title,
@@ -130,7 +129,7 @@ const CustomTablePaginate = ({
   };
 
   const CustomBtnTheme = {
-    backgroundColor: "#9AE6B4",
+    backgroundColor: "#2b46e0",
     borderRadius: "52px",
     fontSize: "20px",
   };
@@ -151,13 +150,12 @@ const CustomTablePaginate = ({
           />
           <Box>
             <Flex columnGap={3} justifyContent={"end"}>
-              {(user.user_role === "External Doctor" && title === "Case") ||
-              (title !== "Archived Case" && title !== "Case") ? (
+              {(user.user_role === "Super Admin" && title === "User") ? (
                 <Button
                   size={"sm"}
                   fontSize={14}
-                  bg={"#1CB45D"}
-                  colorScheme={"green"}
+                  bg={"#526bf2"}
+                  colorScheme={"blue"}
                   color={"white"}
                   variant={"solid"}
                   fontWeight={"normal"}
@@ -170,7 +168,9 @@ const CustomTablePaginate = ({
                   {title}
                 </Button>
               ) : null}
+
               {child !== null ? child : null}
+
               <Select
                 w={32}
                 mt={5}
@@ -204,7 +204,7 @@ const CustomTablePaginate = ({
               <Tr fontSize={13} {...headerGroup.getHeaderGroupProps()}>
                 {headerGroup.headers.map((column) => (
                   <Th
-                    bg={"green.100"}
+                    bg={"blue.100"}
                     color={"gray.600"}
                     fontSize={14}
                     {...column.getHeaderProps()}
@@ -234,7 +234,8 @@ const CustomTablePaginate = ({
                 );
               })
             ) : (
-              <SearchNotFound />
+              // <SearchNotFound />
+              null
             )}
           </Tbody>
         </Table>

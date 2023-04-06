@@ -2,7 +2,7 @@ import { Menu, MenuItem } from "react-pro-sidebar";
 import { Image, Heading, Box, Divider, Text } from "@chakra-ui/react";
 import RouteData from "../../Routes/RouteData";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../context/AuthContext";
+import useAuth from "../../Hooks/AuthContext";
 import "../../Sidebar.css";
 
 const SidebarDividerHeader = ({ data, header, flip }) => {
