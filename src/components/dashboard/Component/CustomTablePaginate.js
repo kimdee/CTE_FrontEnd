@@ -19,6 +19,7 @@ import {
 } from "@chakra-ui/react";
 import useAuth from "../../Hooks/AuthContext";
 import Searchfield from "../Component/Searchfield";
+import TableRow from "./TableRow";
 import { MdOutlineMessage } from "react-icons/md";
 
 import SearchNotFound from "./SearchNotFound";
@@ -99,7 +100,7 @@ const CustomTablePaginate = ({
 
     return (
       <>
-        {title === "Users" ? (
+        {title === "User" ? (
           <>
             <IconButton
               className="btn-message"
@@ -217,22 +218,14 @@ const CustomTablePaginate = ({
           </Thead>
           <Tbody {...getTableBodyProps()}>
             {page.length >= 1 ? (
-              page.map((row) => {
-                prepareRow(row);
-                i++;
-                return (
-                  <Tr className="td" {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <Td {...cell.getCellProps()}>
-                          {/* data
-                           */}
-                        </Td>
-                      );
-                    })}
-                  </Tr>
-                );
-              })
+               <TableRow
+               page={page}
+               prepareRow={prepareRow}
+               pageIndex={pageIndex}
+               title={title}
+               data={data}
+               fetch={fetch}
+             />
             ) : (
               // <SearchNotFound />
               null

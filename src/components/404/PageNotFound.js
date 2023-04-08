@@ -16,7 +16,7 @@ const PageNotFound = () => {
 
   const handleBackEvent = (e) => {
     e.preventDefault();
-    navigate("/login");
+    navigate("/");
   };
 
   return (

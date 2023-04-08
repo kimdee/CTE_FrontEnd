@@ -219,7 +219,7 @@ const Users = () => {
     },
     {
       Header: 'NAME',
-      accessor: 'fullname',
+      accessor: 'FullName',
     },
     {
       Header: 'EMAIL',
@@ -227,11 +227,7 @@ const Users = () => {
     },
     {
       Header: 'ROLE',
-      accessor: 'role',
-    },
-    {
-      Header: 'STATUS',
-      accessor: 'status',
+      accessor: 'RoleName',
     },
     {
       Header: 'ACTION',
@@ -268,8 +264,8 @@ const Users = () => {
   };
 
   const userJSONData = users.filter(filter =>
-    filter.FullName.toLowerCase().includes(search.toLowerCase())
-  );
+    filter.FullName.toLowerCase().includes(search.toLowerCase()) )
+
 
   useEffect(() => {
     handleFetchUser();

@@ -200,6 +200,8 @@ export const DataProvider = ({ children }) => {
         login,
         register,
         resetState,
+        search,
+        setSearch,
       }}
     >
       {children}
