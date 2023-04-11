@@ -26,6 +26,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 
+import { useNavigate } from 'react-router-dom';
 
 import useAuth from '../Hooks/AuthContext';
 import { AiOutlineCheckCircle } from 'react-icons/ai';
@@ -34,8 +35,8 @@ import { MdOutlineFileUpload } from 'react-icons/md';
 import { CustomFormController } from '../Components/Custom';
 import { toastposition, toastvariant } from '../Pages/Packages';
 import { FaLock } from 'react-icons/fa';
-import { PutRequest } from '../API/api';
-import { Profile } from '../API/Paths';
+import { PutRequest, DeleteRequest } from '../API/api';
+import { Profile, User } from '../API/Paths';
 import StatusHandler from '../Utils/StatusHandler'
 
 import CTE_logo from "../Media/samplepic.jpg";
@@ -43,7 +44,8 @@ import { type } from "@testing-library/user-event/dist/type";
 
 const Profiles = () => {
   const toast = useToast();
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
+  const navigate = useNavigate();
 
   const [editable, setEditable] = useState(false);
 
@@ -112,6 +114,27 @@ const Profiles = () => {
       });
   };
 
+  const signOutUser = e => {
+    e.preventDefault();
+
+    DeleteRequest({ url: `${User}/logout` })
+      .then(res => res.data)
+      .then(res => {
+        if (!res.statusText === 'OK') {
+          throw new Error('Bad repsonse', { cause: res });
+        }
+
+        const { message } = res;
+        console.log(message);
+        sessionStorage.removeItem('token');
+        setUser(null);
+        navigate('/');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
   return (
     <Container maxW={'container.xxl'}>
       <Box mt={5} p={[0, 0, 2, 3]}>
@@ -147,7 +170,8 @@ const Profiles = () => {
               </Tr>
             </Table>
             <Center>
-              <Button m={2} colorScheme="blueCTE" w="90%">
+              <Button m={2} colorScheme="blueCTE" w="90%"
+              onClick={e => signOutUser(e)}>
                 Logout
               </Button>
             </Center>

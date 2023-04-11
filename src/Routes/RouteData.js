@@ -5,7 +5,7 @@ import {
   FaRegHospital,
 } from "react-icons/fa";
 import { MdAnnouncement } from "react-icons/md";
-import { FaUserMd } from "react-icons/fa";
+import { FaChartBar, FaUserMd } from "react-icons/fa";
 import { BsArchive } from "react-icons/bs";
 import { GiSkills } from "react-icons/gi";
 import { TbFileReport } from "react-icons/tb";
@@ -15,6 +15,7 @@ import Announcement from "../Pages/Announcement";
 import Staff from "../Pages/Staff"
 import User from "../Pages/User";
 import Profile from "../Pages/Profile"
+import Analytics from "../Pages/Analytics";
 
 const RouteData = {
   path: [
@@ -30,6 +31,16 @@ const RouteData = {
     },
     {
       index: 2,
+      icon: <FaChartBar />,
+      href: "/analytics",
+      label: "Analytics",
+      element: <Analytics />,
+      superadmin: true,
+      admin: true,
+      user: false,
+    },
+    {
+      index: 3,
       icon: <FaUserMd />,
       href: "/staff",
       label: "Staff",
@@ -39,7 +50,7 @@ const RouteData = {
       user: false,
     },
     {
-      index: 3,
+      index: 4,
       icon: <FaUsers />,
       href: "/users",
       label: "Users",

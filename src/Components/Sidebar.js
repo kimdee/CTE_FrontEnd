@@ -184,7 +184,7 @@ const SidebarComponent = props => {
             .map(data => {
               return (
                 <>
-                  {data.index === 1 || data.index === 2 || data.index === 9 ? (
+                  {data.index === 1 || data.index === 5 || data.index === 9 ? (
                     <SidebarDividerHeader
                       data={data}
                       header={
