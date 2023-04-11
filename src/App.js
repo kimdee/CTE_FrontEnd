@@ -1,52 +1,17 @@
-import "./App.css";
+import React from 'react';
+import { extendTheme, ChakraProvider } from '@chakra-ui/react';
+import '@fontsource/poppins';
 
-import {
-  BrowserRouter,
-  Routes,
-  Route,
-  Outlet,
-  useLocation,
-  Navigate,
-} from "react-router-dom";
+import './Style/App.css';
 
-import useAuth from "./components/Hooks/AuthContext";
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ProSidebarProvider } from 'react-pro-sidebar';
 
-import Login from "./components/authentication/Login";
-import Home from "./components/dashboard/Home";
+import AnimatedRoutes from './Routes/AnimatedRoutes';
 
-import Announcement from "./components/dashboard/Pages/Announcement";
-import Profile from "./components/dashboard/Pages/Profile";
-
-import CustomRoute from "./components/Routes/CustomRoute";
-import { BrowserRouter as Router } from "react-router-dom";
-import { extendTheme, ChakraProvider } from "@chakra-ui/react";
-
-const Layout = () => {
-  return (
-    <main>
-      <Outlet />
-    </main>
-  );
-};
-
-const RedirectAuth = ({ user }) => {
-  const location = useLocation();
-
-  if (!user || user.loggedIn === undefined) {
-    return <Login />;
-  }
-
-  if (user.loggedIn === true) {
-    return <Navigate to="/h" state={{ from: location }} replace />;
-  }
-
-  return <Navigate to="/login" state={{ from: location }} replace />;
-};
-
-// const CustomRoute = () => {
-//   const location = useLocation();
-//   const { user } = useAuth();
-// };
+//Font Imports
+import "@fontsource/poppins/600.css";
+import "@fontsource/roboto";
 
 function App() {
   const theme = extendTheme({
@@ -69,10 +34,12 @@ function App() {
   });
   return (
     <ChakraProvider theme={theme}>
-      <Router>
-        <CustomRoute />
-      </Router>
-    </ChakraProvider>
+      <ProSidebarProvider>
+        <Router>
+          <AnimatedRoutes />
+        </Router>
+      </ProSidebarProvider>
+  </ChakraProvider>
   );
 }
 
