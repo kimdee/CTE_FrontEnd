@@ -15,7 +15,7 @@ const SidebarDividerHeader = ({ data, header, collapsed }) => {
           style={{
             fontSize: '12px',
             marginLeft: '10%',
-            color: '#101D8B',
+            color: '#182bd0',
           }}
           id="consult"
         >
@@ -167,7 +167,7 @@ const SidebarComponent = props => {
 
   return (
     <Box>
-      <Sidebar h={'100vh'} backgroundColor="white" breakPoint="lg">
+      <Sidebar h={'100vh'} backgroundColor='white' breakPoint="lg">
         <SidebarHeader collapsed={props.collapsed} />
         <Box h={20}></Box>
         <Menu menuItemStyles={menuItemStyles}>
@@ -190,9 +190,9 @@ const SidebarComponent = props => {
                       header={
                         data.index === 1
                           ? 'ANALYTICS'
-                          : data.index === 5
-                          ? 'CONSULTATION'
-                          : 'SETTINGS'
+                          : data.index === 5  
+                          ? 'SETTINGS'
+                          : ''
                       }
                       key={data.index * 2}
                       collapsed={props.collapsed}
@@ -215,100 +215,3 @@ const SidebarComponent = props => {
 };
 
 export default SidebarComponent;
-
-// import { Menu, MenuItem } from "react-pro-sidebar";
-// import { useNavigate } from "react-router-dom";
-
-// import { Image, Heading, Box, Divider, Text } from "@chakra-ui/react";
-
-// import RouteData from "../Routes/RouteData";
-// import useAuth from "../Hooks/AuthContext";
-// import "../Style/Sidebar.css"
-
-// const SidebarDividerHeader = ({ data, header, flip }) => {
-//   return (
-//     <>
-//       {flip ? null : (
-//         <span
-//           key={data.index}
-//           style={{
-//             fontSize: "12px",
-//             marginLeft: "10%",
-//             color: "#101D8B",
-//           }}
-//           id="consult"
-//         >
-//           {header}
-//         </span>
-//       )}
-//     </>
-//   );
-// };
-
-// const CustomSidebar = ({ flip }) => {
-//   const navigate = useNavigate();
-//   const { user } = useAuth();
-
-//   const handleClick = (data) => {
-//     navigate("/h" + data.href);
-//   };
-
-//   return (
-//     <>
-//       <div
-//         className="sidebar"
-//         style={{ width: flip && "75px", display: flip && "block" }}
-//       >
-//         <Menu iconShape="circle" color={"#182BD0"}>
-//           <MenuItem
-//             icon={<Image w={8} src={require("../Media/cte_logo.png")} />}
-//           >
-//             <Heading size={"md"}>CTE </Heading>
-//           </MenuItem>
-//           <Box h={10} p={4}>
-//             <Divider color={"red"} width={"1px"} />
-//           </Box>
-//           {RouteData.path
-//             .filter((x) =>
-//               user.user_role === "Super Admin"
-//                 ? x.superadmin === true
-//                 : user.user_role === "Admin"
-//                 ? x.admin === true
-//                 : user.user_role === "User"
-//                 ? x.staff === true
-//                 : null
-//             )
-//             .map((data) => {
-//               return (
-//                 <>
-//                   {data.index === 1 || data.index === 5 || data.index === 9 ? (
-//                     <SidebarDividerHeader
-//                       data={data}
-//                       header={
-//                         data.index === 1
-//                           ? "ANALYTICS"
-//                           : data.index === 5
-//                           ? "CONSULTATION"
-//                           : "SETTINGS"
-//                       }
-//                       flip={flip}
-//                       key={data.index * 2}
-//                     />
-//                   ) : null}
-//                   <MenuItem
-//                     key={data.index}
-//                     onClick={() => handleClick(data)}
-//                     icon={data.icon}
-//                   >
-//                     <Text> {data.label}</Text>
-//                   </MenuItem>
-//                 </>
-//               );
-//             })}
-//         </Menu>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default CustomSidebar;

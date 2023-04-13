@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+
 import {
     Box,
     Grid,
@@ -7,51 +8,50 @@ import {
     Container,
     useDisclosure,
     useToast,
+    Center,
     FormControl,
     FormLabel,
-    Select,
-    Textarea,
     Input,
-    Flex,
-    Button,
   } from '@chakra-ui/react';
 
+  
 import CustomModal from '../Components/CustomModal';
 import CustomTablePaginate from '../Components/CustomTablePaginate';
+import { CustomFormController } from '../Components/Custom';
 
-import { MdOutlineFileUpload } from 'react-icons/md';
 import useAuth from '../Hooks/AuthContext';
 
 import { GetRequest, PostRequest } from '../API/api'
-import { Announcement } from '../API/Paths';
+import { Schedule } from '../API/Paths';
 
-import StatusHandler from '../Utils/StatusHandler';
 import { toastposition, toastvariant } from './Packages';
-  
-const AddModal = ({ isOpen, onClose, fetch }) => {
-  const title = 'Post Announcement';
+import StatusHandler from '../Utils/StatusHandler';
 
-  const [type, setType] = useState('');
-  const [details, setDetails] = useState('');
+const AddModal = ({ isOpen, onClose, fetch, users }) => {
+  const title = 'Schedule';
+
+  const [description, setDescription] = useState('');
   const [fileUpload, setFileUpload] = useState('');
 
   const toast = useToast();
   const [loader, setLoader] = useState(false);
 
+  const {
+    user,
+  } = useAuth();
+  
   const handleSubmit = async e => {
     e.preventDefault();
     let msg = '';
 
     let formData = new FormData();
-    formData.append('Type', type);
-    formData.append('Details', details);
+    formData.append('Description', description);
     formData.append('FileUpload', fileUpload);
 
     PostRequest(
-      { url: Announcement },
+      { url: Schedule },
       {
-        Type: type,
-        Details: details,
+        Description: description,
         FileUpload: fileUpload,
       }
     )
@@ -60,13 +60,12 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
           throw new Error('Bad response.', { cause: res });
         }
         onClose();
-        setType('');
-        setDetails('');
+        setDescription('');
         setFileUpload('');
         fetch(true);
 
         toast({
-          title: 'Posted a new announcement!',
+          title: 'New Schedule added!',
           position: toastposition,
           variant: toastvariant,
           status: 'success',
@@ -76,7 +75,7 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
       })
       .catch(err => {
         toast({
-          title: 'Failed to post announcement!',
+          title: 'Failed to add data!',
           position: toastposition,
           variant: toastvariant,
           status: 'error',
@@ -90,9 +89,9 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
     document.getElementById('file').click();
   };
 
-return (
-  <>
-  <CustomModal
+  return(
+    <>
+    <CustomModal
       title={title}
       isOpen={isOpen}
       onClose={onClose}
@@ -109,34 +108,14 @@ return (
         overflow={'hidden'}
       >
         <GridItem rowSpan={2} colSpan={4}>
-          <FormControl isRequired>
-            <FormLabel htmlFor="announcementType" fontSize="sm">
-              Announcement Type
-            </FormLabel>
-
-            <Select
-              placeholder="Select Type"
-              size="sm"
-              value={type}
-              onChange={(e) => setType(e.target.value)}
-              // onChange={e => { setType(e.target.value);}}
-            >
-              <option value={"announcement"}>Announcement</option>
-              <option value={"memo"}>Memorandum Order</option>
-              <option value={"activity"}>Activity</option>
-              <option value={"request"}>Request</option>
-            </Select>
-          </FormControl>
-
           <FormControl isRequired mt={5}>
             <FormLabel htmlFor="postDetails" fontSize="sm">
-              Details
+              Description
             </FormLabel>
-            <Textarea
-              size="sm"
-              value={details}
-              onChange={(e) => setDetails(e.target.value)}
-              // onChange={e => { setDetails(e.target.value);}}
+
+            <Input
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
             />
           </FormControl>
 
@@ -147,35 +126,38 @@ return (
             
             <Input
               type="file"
-              value={fileUpload}
+              // value={fileUpload}
               onChange={(e) => setFileUpload(e.target.value)}
             />
           </FormControl>
         </GridItem>
       </Grid>
     </CustomModal>
-  </>
-)};
+    </>
+  )
 
-const Announcements = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [fetch, setFetch] = useState(true);
-  const [announcements, setAnnouncements] = useState([]);
-  const { search, setSearch } = useAuth();
-  const Title = 'Post Announcement';
+};
 
+const Schedules = () => {
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const [schedules, setSchedules] = useState([]);
+    const [fetch, setFetch] = useState(false);
+    const { search, setSearch } = useAuth();
+    const Title = 'Schedule';
+
+    
   const columns = [
     {
       Header: 'ID',
       accessor: 'id',
     },
     {
-      Header: 'TYPE',
-      accessor: 'Type',
+      Header: 'DESCRIPTION',
+      accessor: 'Description',
     },
     {
-      Header: 'DESCRIPTION',
-      accessor: 'Details',
+      Header: 'FILEUPLOAD',
+      accessor: 'FileUpload',
     },
     {
       Header: 'ACTION',
@@ -183,8 +165,8 @@ const Announcements = () => {
     },
   ];
 
-  const handleFetchAnnouncement = async () => {
-    GetRequest({ url: Announcement })
+  const handleFetchSchedule = async () => {
+    GetRequest({ url: Schedule })
       .then(res => res.data)
       .then(res => {
         if (!res.statusText === 'OK') {
@@ -192,20 +174,19 @@ const Announcements = () => {
         }
         const { data } = res;
 
-        if (data.length === announcements.length) {
+        if (data.length === schedules.length) {
           return;
         }
-        setAnnouncements(data);
+        setSchedules(data);
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  //SearchFilter
-  const filtered = announcements.filter(filter =>
-      filter.Type.toLowerCase().includes(search.toLowerCase()) ||
-      filter.Details.toLowerCase().includes(search.toLowerCase())
+   //SearchFilter
+   const filtered = schedules.filter(filter =>
+    filter.Description.toLowerCase().includes(search.toLowerCase())
   );
 
   useEffect(() => {
@@ -213,32 +194,32 @@ const Announcements = () => {
       if (fetch) {
         setFetch(false);
       }
-      handleFetchAnnouncement();
+      handleFetchSchedule();
     }, [fetch ? 0 : 40000]);
 
     return () => clearInterval(intervalId);
   }, [fetch]);
 
   return (
-    <>
-      <Container maxW={'container.xxl'}>
-        <Box mt={5} p={[0, 0, 2, 3]}>
-          <CustomTablePaginate
-             title={Title}
-             columns={columns}
-             fetch={setFetch}
-             data={filtered}
-             search={search}
-             setSearch={setSearch}
-             isModal={true}
-             onOpen={onOpen}
-          />
-        </Box>
-      </Container>
+      <>
+        <Container maxW={'container.xxl'}>
+          <Box mt={5} p={[0, 0, 2, 3]}>
+            <CustomTablePaginate
+              title={Title}
+              columns={columns}
+              data={filtered}
+              search={search}
+              setSearch={setSearch}
+              onOpen={onOpen}
+              isModal={true}
+            />
+          </Box>
+        </Container>
+  
+        <AddModal isOpen={isOpen} onClose={onClose} fetch={setFetch} />
+      </>
+    );
 
-      <AddModal isOpen={isOpen} onClose={onClose} fetch={setFetch} />
-    </>
-  );
-};
+}
 
-export default Announcements;
+export default Schedules;

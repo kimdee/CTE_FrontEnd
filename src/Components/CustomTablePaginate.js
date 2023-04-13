@@ -154,7 +154,7 @@ const CustomTablePaginate = ({
           <Box>
             <Flex columnGap={3} justifyContent={"end"}>
               {(user.user_role === "Super Admin" && title === "User" || title === "Post Announcement" ||
-              title === "Staff") ? (
+              title === "Schedule" || title === "Staff") ? (
                 <Button
                   size={"sm"}
                   fontSize={14}
