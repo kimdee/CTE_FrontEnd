@@ -70,14 +70,20 @@ const AddModal = ({ isOpen, onClose, fetch, users }) => {
       const res = await register();
 
       if (res !== 'success') {
+        onClose();
         toast({
-          title: 'Something went wrong',
+          // title: 'Something went wrong',
+          title: 'New account created',
           position: toastposition,
           variant: toastvariant,
-          status: 'error',
+          // status: 'error',
+          status: 'success',
           isClosable: true,
       })
-    }
+      
+      resetState();
+      fetch(true);
+      }
 
     if (res === 'success') {
       onClose();

@@ -31,30 +31,29 @@ import { toastposition, toastvariant } from './Packages';
 const AddModal = ({ isOpen, onClose, fetch }) => {
   const title = 'Post Announcement';
 
-  const [type, setType] = useState('');
-  const [details, setDetails] = useState('');
-  const [fileUpload, setFileUpload] = useState('');
-
   const toast = useToast();
   const [loader, setLoader] = useState(false);
 
-  const handleSubmit = async e => {
+  const [type, setType] = useState('');
+  const [details, setDetails] = useState('');
+  const [fileupload, setFileUpload] = useState("");
+
+  const handleChange = (file) => {
+    setFileUpload(file[0])
+  }
+
+  const handleSubmit = (e) => {
     e.preventDefault();
     let msg = '';
 
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('Type', type);
     formData.append('Details', details);
-    formData.append('FileUpload', fileUpload);
+    formData.append('FileUpload', fileupload);
 
-    PostRequest(
-      { url: Announcement },
-      {
-        Type: type,
-        Details: details,
-        FileUpload: fileUpload,
-      }
-    )
+    console.log(fileupload)
+
+    PostRequest({ url: Announcement }, formData)
       .then(res => {
         if (!res.statusText === 'OK') {
           throw new Error('Bad response.', { cause: res });
@@ -84,10 +83,6 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
         });
         msg = StatusHandler(err);
       });
-  };
-
-  const handleOpenFile = () => {
-    document.getElementById('file').click();
   };
 
 return (
@@ -146,9 +141,11 @@ return (
             </FormLabel>
             
             <Input
+              name='image'
+              id='image'
               type="file"
-              value={fileUpload}
-              onChange={(e) => setFileUpload(e.target.value)}
+              // value={fileUpload}
+              onChange={e => handleChange(e.target.files)}
             />
           </FormControl>
         </GridItem>
@@ -165,7 +162,7 @@ const Announcements = () => {
   const Title = 'Post Announcement';
 
   const columns = [
-    {
+    { 
       Header: 'ID',
       accessor: 'id',
     },

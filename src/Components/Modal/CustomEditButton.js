@@ -5,6 +5,7 @@ import { MdOutlineEdit } from 'react-icons/md';
 import { UserModal } from './UserModal';
 import { AnnouncementEditModal } from './AnnouncementEditModal';
 import { ProfileEditModal } from './ProfileEditModal';
+import { RequestEditModal } from './RequestEditModal';
 
 
 export const CustomEditButton = ({
@@ -63,7 +64,17 @@ export const CustomEditButton = ({
           rawData={rawData}
           row={row}
         /> 
-        ) : (
+        ) : title === 'Request' ? (
+          <RequestEditModal
+            title={title}
+            isOpen={isOpen}
+            onClose={onClose}
+            data={data}
+            fetch={fetch}
+            rawData={rawData}
+            row={row}
+          />
+        ): (
         <UserModal
           title={title}
           isOpen={isOpen}

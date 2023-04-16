@@ -51,7 +51,7 @@ const CustomModal = ({
           <ModalHeader>{title}</ModalHeader>
 
           <ModalCloseButton />
-          <form method={"post"} onSubmit={handleSubmit}>
+          <form method={"post"} onSubmit={handleSubmit} encType=" multipart/form-data">
             <ModalBody pb={6}>
               {children}
               <Box mt={2}>
@@ -125,7 +125,8 @@ const CustomModal = ({
                     Cancel
                   </Button>
 
-                  <Button
+                  {(title == 'Post Announecment') ? (
+                    <Button
                     isLoading={loader}
                     loadingText={"Saving"}
                     type={"submit"}
@@ -136,9 +137,26 @@ const CustomModal = ({
                     mr={3}
                     size="sm"
                     bg={loader ? "gray" : "#526bf2"}
+                    onClick={handleSubmit}
+                    >
+                      {btntitle}
+                    </Button>
+                  ) : 
+                  <Button
+                  isLoading={loader}
+                  loadingText={"Saving"}
+                  type={"submit"}
+                  fontSize={"14px"}
+                  borderRadius={"4"}
+                  fontWeight={"normal"}
+                  colorScheme="blue"
+                  mr={3}
+                  size="sm"
+                  bg={loader ? "gray" : "#526bf2"}
                   >
                     {btntitle}
-                  </Button>
+                  </Button> }
+                  
                 </>
               )}
             </ModalFooter>

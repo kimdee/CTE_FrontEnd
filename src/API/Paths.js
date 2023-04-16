@@ -10,6 +10,9 @@ export const Announcement = 'api/announcement';
 //Schedule
 export const Schedule = 'api/schedule';
 
+//Request
+export const Request = 'api/requests';
+
 //User
 export const User = 'api/user';
 

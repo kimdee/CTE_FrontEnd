@@ -19,6 +19,7 @@ import Staff from "../Pages/Staff";
 import User from "../Pages/User";
 import Profile from "../Pages/Profile";
 import Schedules from "../Pages/Schedule";
+import Requests from "../Pages/Request";
 
 const RouteData = {
   path: [
@@ -57,7 +58,7 @@ const RouteData = {
       icon: <FaRegEdit />,
       href: "/request",
       label: "Request",
-      // element: <Schedule />,
+      element: <Requests />,
       superadmin: true,
       admin: true,
       user: true,
@@ -91,79 +92,7 @@ const RouteData = {
       superadmin: true,
       admin: true,
       user: true,
-    },
-    // {
-    //   index: 4,
-    //   icon: <FaUserFriends />,
-    //   href: "/patients",
-    //   label: "Patients",
-    //   element: <Patient />,
-    //   superadmin: false,
-    //   admin: false,
-    //   doctor: false,
-    //   edoctor: true,
-    //   staff: false,
-    // },
-    // {
-    //   index: 5,
-    //   icon: <FaHospitalUser />,
-    //   href: "/case",
-    //   label: "Active Case",
-    //   element: <Case />,
-    //   superadmin: false,
-    //   admin: true,
-    //   doctor: true,
-    //   edoctor: true,
-    //   staff: true,
-    // },
-    // {
-    //   index: 6,
-    //   icon: <BsArchive />,
-    //   href: "/archived",
-    //   label: "Archived",
-    //   element: <Archived />,
-    //   superadmin: false,
-    //   admin: true,
-    //   doctor: true,
-    //   edoctor: true,
-    //   staff: true,
-    // },
-    // {
-    //   index: 7,
-    //   icon: <FaRegHospital />,
-    //   href: "/hospital",
-    //   label: "Hospital",
-    //   element: <Hospital />,
-    //   superadmin: true,
-    //   admin: true,
-    //   doctor: false,
-    //   edoctor: false,
-    //   staff: false,
-    // },
-    // {
-    //   index: 8,
-    //   icon: <GiSkills />,
-    //   href: "/specialization",
-    //   label: "Specialization",
-    //   element: <Specialization />,
-    //   superadmin: true,
-    //   admin: true,
-    //   doctor: false,
-    //   edoctor: false,
-    //   staff: false,
-    // },
-    // {
-    //   index: 9,
-    //   icon: <TbFileReport />,
-    //   href: "/report",
-    //   label: "Report",
-    //   element: <Report />,
-    //   superadmin: true,
-    //   admin: false,
-    //   doctor: false,
-    //   edoctor: false,
-    //   staff: false,
-    // },
+    }
   ],
 };
 

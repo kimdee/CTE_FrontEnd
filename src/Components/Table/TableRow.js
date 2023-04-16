@@ -88,7 +88,7 @@ const Actions = ({
         </>
       ) : null}
 
-      {title === 'User' || title == 'Post Announcement' || title == 'Staff'  ? (
+      {title === 'User' || title == 'Post Announcement' || title == 'Staff' || title == 'Request' || title == 'Schedule'  ? (
         <CustomEditButton
           title={title}
           data={cellvalue}
@@ -132,10 +132,11 @@ const TableRow = props => {
           >
             {row.cells.map(cell => {
               return (
-                <Td textAlign={"center"} {...cell.getCellProps()}>
+                <Td textAlign={"left"} {...cell.getCellProps()}>
                   {cell.column.id === 'action' ? (
                     <Flex columnGap={3}>
-                      {props.title === 'Staff' || props.title === 'Profile' ? (
+                      {props.title === 'Staff' || props.title === 'Profile' || props.title === 'Announcement'
+                      || props.title === 'Request' ?  (
                         <CustomViewButton
                           title={props.title}
                           data={props.data}
@@ -144,6 +145,7 @@ const TableRow = props => {
                       ) : (
                         ''
                       )}
+
                       {props.title === 'User' ? (
                         user.user_role === 'Super Admin' ||
                           user.user_role === 'Admin' ? (
@@ -218,7 +220,7 @@ const TableRow = props => {
                         ? 'ACTIVE'
                         : cell.row.values.status === 1
                         ? 'DISSABLED'
-                        : cell.row.values.status === 0
+                        : 'PENDING'
                       }
                     </Text>
                   ) : (

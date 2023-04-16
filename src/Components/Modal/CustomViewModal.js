@@ -25,6 +25,7 @@ export const CustomViewButton = ({ title, data, id }) => {
 
       <CustomModal
         /*   title={"Patient Information"} */
+        title={title}
         isOpen={isOpen}
         onClose={onClose}
         //  onSave={}
@@ -32,7 +33,36 @@ export const CustomViewButton = ({ title, data, id }) => {
         isNew={false}
         isView={true}
       >
-        {data
+        { title == 'Request' ? (
+            data.filter((e) => e.id == id[0].id)
+              .map((row) => {
+                return (
+                  <>
+                    <Stack p={5} fontSize={15}>
+                      <Flex key={3}>
+                        <Text fontSize={15}>Request Type: { row.Type } </Text>
+                        <Spacer />
+                        <Text mr={5} fontWeight={"bold"}>
+                         {row.Status}
+                        </Text>
+                      </Flex>
+    
+                      <Flex key={5}>
+                        <Text fontSize={15}>Description: 
+                          <Text>{row.Description}</Text>
+                        </Text>
+                      </Flex>
+                    </Stack>
+                  </>
+                );
+              })
+            
+          ) : (
+            null
+          )}
+
+
+        {/* {data
           .filter((e) => e.id == id[0].id)
           .map((row) => {
             return (
@@ -152,7 +182,8 @@ export const CustomViewButton = ({ title, data, id }) => {
                 </Stack>
               </>
             );
-          })}
+          })
+          } */}
       </CustomModal>
     </>
   );
