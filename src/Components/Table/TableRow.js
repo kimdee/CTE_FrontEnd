@@ -65,29 +65,6 @@ const Actions = ({
         </>
       ) : null}
 
-      {title === 'Case' ? (
-        <>
-          <IconButton
-            className="btn-message"
-            fontSize={17}
-            fontWeight={'normal'}
-            color={'blue.400'}
-            onClick={() => {
-              navigate('/staff/staff-show', {
-                state: {
-                  data: cellvalue,
-                  rawData: props.data.filter(
-                    x => x.id === cellvalue.id
-                  ),
-                },
-              });
-            }}
-          >
-            <MdOutlineMessage />
-          </IconButton>
-        </>
-      ) : null}
-
       {title === 'User' || title == 'Post Announcement' && user.user_role !== 'User' || title == 'Staff' && user.user_role !== 'User' ||
        title === 'Request' && user.user_role !== 'User' || title === 'Schedule' && user.user_role !== 'User'  ? (
         <CustomEditButton
@@ -102,7 +79,7 @@ const Actions = ({
       ) : null}
 
 
-      {title ==='Post Announcement' && user.user_role !== 'User' ? (
+      {title ==='Post Announcement' && user.user_role !== 'User' || title === 'Request' && user.user_role !== 'User' ?  (
         <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
         ) : null}
     </>

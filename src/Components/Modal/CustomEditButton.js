@@ -69,7 +69,7 @@ export const CustomEditButton = ({
           rawData={rawData}
           row={row}
         /> 
-        ) : title === 'Request' && user.user_role === 'User' ? (
+        ) : title === 'Request' && user.user_role !== 'User' ? (
           <RequestEditModal
             title={title}
             isOpen={isOpen}

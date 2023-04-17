@@ -36,7 +36,7 @@ const AddModal = ({ isOpen, onClose, fetch }) => {
 
   const [type, setType] = useState('');
   const [details, setDetails] = useState('');
-  const [fileupload, setFileUpload] = useState("");
+  const [fileupload, setFileUpload] = useState('');
 
   const handleChange = (file) => {
     setFileUpload(file[0])
@@ -145,7 +145,9 @@ return (
               id='image'
               type="file"
               // value={fileUpload}
-              onChange={e => handleChange(e.target.files)}
+              // onChange={e => handleChange(e.target.files)}
+              files={fileupload}
+              onChange={(e) => setFileUpload(e.target.files)}
             />
           </FormControl>
         </GridItem>
