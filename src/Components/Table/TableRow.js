@@ -135,7 +135,7 @@ const TableRow = props => {
                 <Td textAlign={"left"} {...cell.getCellProps()}>
                   {cell.column.id === 'action' ? (
                     <Flex columnGap={3}>
-                      {props.title === 'Staff' || props.title === 'Profile' || props.title === 'Announcement'
+                      {props.title === 'Staff' || props.title === 'Profile' || props.title === 'Post Announcement'
                       || props.title === 'Request' ?  (
                         <CustomViewButton
                           title={props.title}
