@@ -103,7 +103,7 @@ const Actions = ({
 
       {title !== 'Users' ? (
         <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
-      ) : null}
+        ) : null}
     </>
   );
 };

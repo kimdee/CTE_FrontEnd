@@ -48,9 +48,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
   const handleDelete = async () => {
     switch (title) {
       case 'Post Announcement':
-        DeleteRequest({ url: Announcement }, {
-          id: id[0].announcement_id,
-        })
+        DeleteRequest({ url: Announcement }, id)
           .then(res => {
             if (!res.statusText === 'OK') {
               throw new Error('Bad response.', { cause: res });
@@ -69,11 +67,13 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
       break;
 
       case 'User':
-        DeleteRequest({ url: Profile }, { id: id[0].user_id })
+        DeleteRequest({ url: User }, { id: id[0].id })
           .then(res => {
             if (!res.statusText === 'OK') {
               throw new Error('Bad response.', { cause: res });
             }
+
+            console.log(id)
           })
           .catch(err => {
             const responseMessage = StatusHandler(err);
@@ -85,7 +85,7 @@ export const CustomModalDelete = ({ title, isOpen, onClose, id, fetch }) => {
               isClosable: true,
             });
           });
-        break;
+      break;
 
        
     }

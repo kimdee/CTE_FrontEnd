@@ -35,23 +35,12 @@ import {
   ChevronLeftIcon,
 } from "@chakra-ui/icons";
 
-import {
-  CustomViewButton,
-  CustomEditButton,
-  CustomDeleteButton,
-} from "../Pages/Packages";
-
-import "../Style/Table.css";
-import moment from "moment/moment";
-import { useNavigate } from "react-router-dom";
-
 const CustomTablePaginate = ({
   title,
   columns,
   data,
   fetch,
   announcementData,
-  // hospitalData,
   profiles,
   onOpen,
   search,
@@ -90,7 +79,6 @@ const CustomTablePaginate = ({
     fetch,
     rawData,
     announcementData,
-    // hospitalData,
     cellvalue,
     row,
   }) => {
@@ -230,7 +218,7 @@ const CustomTablePaginate = ({
                data={data}
                fetch={fetch}
              />
-            
+          
             ) : (
               // <SearchNotFound />
               null
