@@ -88,7 +88,8 @@ const Actions = ({
         </>
       ) : null}
 
-      {title === 'User' || title == 'Post Announcement' || title == 'Staff' || title == 'Request' || title == 'Schedule'  ? (
+      {title === 'User' || title == 'Post Announcement' && user.user_role !== 'User' || title == 'Staff' && user.user_role !== 'User' ||
+       title === 'Request' && user.user_role !== 'User' || title === 'Schedule' && user.user_role !== 'User'  ? (
         <CustomEditButton
           title={title}
           data={cellvalue}
@@ -101,7 +102,7 @@ const Actions = ({
       ) : null}
 
 
-      {title !== 'Users' ? (
+      {title ==='Post Announcement' && user.user_role !== 'User' ? (
         <CustomDeleteButton fetch={fetch} title={title} id={[cellvalue]} />
         ) : null}
     </>

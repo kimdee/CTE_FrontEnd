@@ -7,6 +7,9 @@ import { AnnouncementEditModal } from './AnnouncementEditModal';
 import { ProfileEditModal } from './ProfileEditModal';
 import { RequestEditModal } from './RequestEditModal';
 
+import useAuth from '../../Hooks/AuthContext';
+
+
 
 export const CustomEditButton = ({
   title,
@@ -18,6 +21,8 @@ export const CustomEditButton = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+
+  const { user } = useAuth();
 
   const handleClick = () => {
     if (title === 'Patient') {
@@ -64,7 +69,7 @@ export const CustomEditButton = ({
           rawData={rawData}
           row={row}
         /> 
-        ) : title === 'Request' ? (
+        ) : title === 'Request' && user.user_role === 'User' ? (
           <RequestEditModal
             title={title}
             isOpen={isOpen}
